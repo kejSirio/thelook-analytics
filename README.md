@@ -51,6 +51,7 @@ theLook non ha esperimenti e il suo funnel segue regole fisse, quindi le domande
 
 ## Per il management
 
+- [`docs/readout.pdf`](docs/readout.pdf): readout di 10 slide con sintesi, risultati e cinque azioni in ordine di valore.
 - [`docs/memo.md`](docs/memo.md): vendite e clienti di theLook, tre raccomandazioni.
 - [`docs/memo_esperimenti.md`](docs/memo_esperimenti.md): funnel, attribution ed esperimenti, quattro raccomandazioni.
 
@@ -95,7 +96,7 @@ Le stesse definizioni sono in `sql/02_marts.sql`, nelle misure DAX (`powerbi/mis
 - [x] Progetto dbt con 54 test, controllo anomalie e semantic layer MetricFlow (`dbt/`, `notebooks/02_dbt_metricflow.ipynb`)
 - [x] Funnel, attribution e A/B test (`notebooks/03_ab_test_e_funnel.ipynb`, `docs/memo_esperimenti.md`)
 - [x] Dashboard Tableau Public ([link](https://public.tableau.com/views/Funneledesperimenti/Dashboard1), dati in `tableau/`)
-- [ ] Readout per il management
+- [x] Readout per il management (`docs/readout.pdf`)
 
 ## Struttura
 
@@ -105,7 +106,7 @@ dbt/          gli stessi staging e mart come progetto dbt: test, controllo anoma
 powerbi/      report Power BI, misure DAX, guida al modello, screenshot
 tableau/      dati aggregati e immagine della dashboard Tableau Public
 notebooks/    01 coorti e canali, 02 build dbt e metriche MetricFlow, 03 funnel, attribution e A/B test (Google Colab)
-docs/         due memo per il management, guida al modello per chi entra nel progetto
+docs/         readout in PDF, due memo per il management, guida al modello per chi entra nel progetto
 ```
 
 ## Autore
