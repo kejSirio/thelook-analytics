@@ -1,0 +1,96 @@
+// theLook Analytics · tutte le misure in un colpo solo
+//
+// Come usarlo in Power BI Desktop:
+// 1. Deve esistere la tabella _Misure (Home -> Immetti dati -> nome _Misure).
+// 2. Apri la Visualizzazione query DAX (icona DAX nella barra a sinistra).
+// 3. Incolla tutto questo file e premi Esegui: il risultato deve essere
+//    8.002.557,47 (Ricavi netti, uguale al controllo in BigQuery).
+// 4. Clicca "Aggiorna modello con le modifiche": le 16 misure entrano
+//    nel modello. Quelle già create a mano vengono sovrascritte.
+
+DEFINE
+    // ---------- Vendite ----------
+    MEASURE '_Misure'[Ricavi lordi] =
+        CALCULATE (
+            SUM ( fct_order_items[sale_price] ),
+            fct_order_items[is_cancelled] = FALSE ()
+        )
+
+    MEASURE '_Misure'[Ricavi netti] =
+        CALCULATE (
+            SUM ( fct_order_items[sale_price] ),
+            fct_order_items[is_cancelled] = FALSE (),
+            fct_order_items[is_returned] = FALSE ()
+        )
+
+    MEASURE '_Misure'[Margine] =
+        CALCULATE (
+            SUM ( fct_order_items[margin] ),
+            fct_order_items[is_cancelled] = FALSE (),
+            fct_order_items[is_returned] = FALSE ()
+        )
+
+    MEASURE '_Misure'[Margine %] =
+        DIVIDE ( [Margine], [Ricavi netti] )
+
+    MEASURE '_Misure'[Ordini] =
+        CALCULATE (
+            COUNTROWS ( fct_orders ),
+            fct_orders[status] <> "cancelled"
+        )
+
+    MEASURE '_Misure'[Valore medio ordine] =
+        DIVIDE (
+            CALCULATE ( SUM ( fct_orders[gross_revenue] ), fct_orders[status] <> "cancelled" ),
+            [Ordini]
+        )
+
+    MEASURE '_Misure'[Tasso di reso] =
+        DIVIDE (
+            CALCULATE ( COUNTROWS ( fct_order_items ), fct_order_items[is_returned] = TRUE () ),
+            CALCULATE ( COUNTROWS ( fct_order_items ), fct_order_items[is_cancelled] = FALSE () )
+        )
+
+    // ---------- Confronti nel tempo ----------
+    MEASURE '_Misure'[Ricavi netti anno prec.] =
+        CALCULATE ( [Ricavi netti], SAMEPERIODLASTYEAR ( dim_date[date] ) )
+
+    MEASURE '_Misure'[Var % anno su anno] =
+        DIVIDE ( [Ricavi netti] - [Ricavi netti anno prec.], [Ricavi netti anno prec.] )
+
+    MEASURE '_Misure'[Ricavi netti da inizio anno] =
+        TOTALYTD ( [Ricavi netti], dim_date[date] )
+
+    // ---------- Clienti ----------
+    MEASURE '_Misure'[Clienti acquirenti] =
+        CALCULATE (
+            DISTINCTCOUNT ( fct_orders[user_id] ),
+            fct_orders[status] <> "cancelled"
+        )
+
+    MEASURE '_Misure'[Nuovi clienti] =
+        CALCULATE ( DISTINCTCOUNT ( fct_orders[user_id] ), fct_orders[user_order_number] = 1 )
+
+    MEASURE '_Misure'[Clienti di ritorno] =
+        CALCULATE ( DISTINCTCOUNT ( fct_orders[user_id] ), fct_orders[user_order_number] > 1 )
+
+    // ---------- Coorti ----------
+    MEASURE '_Misure'[Clienti nella coorte] =
+        CALCULATE (
+            DISTINCTCOUNT ( fct_orders[user_id] ),
+            fct_orders[months_since_first_order] = 0,
+            REMOVEFILTERS ( dim_date )
+        )
+
+    MEASURE '_Misure'[Clienti attivi] =
+        CALCULATE (
+            DISTINCTCOUNT ( fct_orders[user_id] ),
+            fct_orders[status] <> "cancelled",
+            REMOVEFILTERS ( dim_date )
+        )
+
+    MEASURE '_Misure'[Retention %] =
+        DIVIDE ( [Clienti attivi], [Clienti nella coorte] )
+
+EVALUATE
+    { [Ricavi netti] }
