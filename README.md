@@ -47,7 +47,7 @@ theLook non ha esperimenti e il suo funnel segue regole fisse, quindi le domande
 
 [Apri la dashboard interattiva](https://public.tableau.com/views/Funneledesperimenti/Dashboard1): passando il mouse sugli esperimenti si leggono lift, intervallo di confidenza, probabilità bayesiana e decisione.
 
-![Dashboard Tableau Public: checkout per piattaforma, esperimenti e canali](tableau/dashboard.png)
+![Dashboard Tableau Public: checkout per piattaforma, esperimenti e canali](tableau/dashboard.png?v1)
 
 ## Per il management
 
