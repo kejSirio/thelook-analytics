@@ -14,6 +14,9 @@
 -- Per spostare il taglio, cambia la data in tutte le clausole WHERE
 -- qui sotto e la fine di dim_date in 02_marts.
 --
+-- Sorgente: la fotografia nel dataset "raw" (sql/00_fotografia_dati.sql),
+-- non il dataset pubblico, che viene rigenerato e cambia nel tempo.
+--
 -- Come usarlo: incolla tutto in una nuova query di BigQuery e premi
 -- Ctrl+Invio senza selezionare nulla: parte come script unico.
 -- Le viste finiscono nel dataset "staging" del tuo progetto.
@@ -52,7 +55,7 @@ SELECT
   delivered_at,
   returned_at,
   num_of_item    AS num_items
-FROM `bigquery-public-data.thelook_ecommerce.orders`
+FROM raw.orders
 WHERE created_at < TIMESTAMP '2026-10-01 00:00:00+00';
 
 
@@ -68,11 +71,11 @@ SELECT
   delivered_at,
   returned_at,
   sale_price
-FROM `bigquery-public-data.thelook_ecommerce.order_items`
+FROM raw.order_items
 -- Una riga d'ordine segue la data del suo ordine (come in dbt/)
 WHERE order_id IN (
   SELECT order_id
-  FROM `bigquery-public-data.thelook_ecommerce.orders`
+  FROM raw.orders
   WHERE created_at < TIMESTAMP '2026-10-01 00:00:00+00'
 );
 
@@ -87,7 +90,7 @@ SELECT
   city,
   traffic_source AS signup_source,
   created_at
-FROM `bigquery-public-data.thelook_ecommerce.users`
+FROM raw.users
 WHERE created_at < TIMESTAMP '2026-10-01 00:00:00+00';
 
 
@@ -101,7 +104,7 @@ SELECT
   cost,
   retail_price,
   distribution_center_id
-FROM `bigquery-public-data.thelook_ecommerce.products`;
+FROM raw.products;
 
 
 CREATE OR REPLACE VIEW staging.stg_events AS
@@ -117,5 +120,5 @@ SELECT
   uri,
   state,
   city
-FROM `bigquery-public-data.thelook_ecommerce.events`
+FROM raw.events
 WHERE created_at < TIMESTAMP '2026-10-01 00:00:00+00';

@@ -5,9 +5,12 @@ Per chi entra nel progetto: come sono organizzati i dati, come si ricostruisce t
 ## 1. Il percorso dei dati
 
 ```
-bigquery-public-data.thelook_ecommerce     dati grezzi, pubblici, sintetici
+bigquery-public-data.thelook_ecommerce     dati pubblici, sintetici, rigenerati nel tempo
         │
-        ▼  sql/01_staging.sql
+        ▼  sql/00_fotografia_dati.sql (una volta sola)
+raw.*                                       copia fissa: i numeri restano riproducibili
+        │
+        ▼  sql/01_staging.sql  oppure  dbt (cartella dbt/)
 staging.stg_*                               pulizia, nomi coerenti, data di taglio
         │
         ▼  sql/02_marts.sql
@@ -21,12 +24,12 @@ Ogni livello legge solo da quello precedente. Power BI e i notebook leggono solo
 
 ## 2. Ricostruire tutto da zero
 
-1. In un progetto Google Cloud con BigQuery attivo (basta la sandbox gratuita), esegui `sql/01_staging.sql` e poi `sql/02_marts.sql`. Ogni file va eseguito intero, con Ctrl+Invio.
+1. In un progetto Google Cloud con BigQuery attivo (basta la sandbox gratuita), esegui una volta `sql/00_fotografia_dati.sql`, poi `sql/01_staging.sql` e `sql/02_marts.sql`. Ogni file va eseguito intero, con Ctrl+Invio. In alternativa agli ultimi due, esegui il progetto dbt con `notebooks/02_dbt_metricflow.ipynb`, che scrive in `dbt_staging` e `dbt_marts`.
 2. Controlla i risultati in fondo a `02_marts.sql`: le righe per tabella e i ricavi netti, che devono coincidere calcolati in due modi.
 3. Apri `powerbi/analisi.pbix` e aggiorna i dati. Se colleghi un modello nuovo, segui `powerbi/modello_e_misure.md`.
 4. Esegui i notebook in Google Colab con lo stesso account Google.
 
-In sandbox le viste scadono dopo 60 giorni: se spariscono, basta rieseguire i due script.
+In sandbox tabelle e viste scadono dopo 60 giorni. Le viste si ricreano rieseguendo gli script; la fotografia invece, se rifatta, contiene dati diversi, perché il dataset pubblico nel frattempo è stato rigenerato. Confronta la sua "carta d'identità" (righe e totale di controllo in fondo allo script) con quella riportata nel README.
 
 ## 3. Le tabelle
 

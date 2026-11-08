@@ -2,9 +2,11 @@ version: 2
 
 sources:
   - name: thelook
-    description: Dataset pubblico e sintetico di Google su BigQuery.
-    database: bigquery-public-data
-    schema: thelook_ecommerce
+    description: >
+      Fotografia del dataset pubblico theLook nel dataset "raw" del progetto,
+      creata con sql/00_fotografia_dati.sql. Il dataset pubblico viene
+      rigenerato: leggerlo direttamente rende i numeri non riproducibili.
+    schema: raw
     tables:
       - name: orders
       - name: order_items

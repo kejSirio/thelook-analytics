@@ -13,7 +13,10 @@ vars:
   cutoff_date: "2026-10-01"
   # Controllo anomalie: una settimana che supera la media delle
   # quattro precedenti di oltre questa quota genera un avviso.
-  anomaly_threshold: 0.25
+  # Soglia tarata sullo storico: con 0,25 scattavano tre settimane
+  # del 2025 senza anomalie note (scarti tra +29% e +34%); la settimana gonfiata
+  # di fine ottobre 2026 era a +38%, la prima di novembre oltre +100%.
+  anomaly_threshold: 0.35
   anomaly_start_date: "2025-01-01"
 
 models:

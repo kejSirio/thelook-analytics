@@ -38,6 +38,7 @@ La sintesi per il management, con tre raccomandazioni, è in [`docs/memo.md`](do
 - **Fonte principale:** `bigquery-public-data.thelook_ecommerce`, dataset pubblico di Google su BigQuery: utenti, ordini, righe d'ordine, prodotti, magazzino ed eventi web, da febbraio 2019.
 - **A/B test:** [E-Commerce Clickstream Simulation Dataset](https://www.kaggle.com/datasets/amith1707/e-commerce-clickstream-simulation-dataset) su Kaggle, licenza CC0.
 - **Dati sintetici:** i risultati mostrano il metodo, non il comportamento di un'azienda reale.
+- **Fotografia dei dati.** Il dataset pubblico viene rigenerato: tra il 7 e l'8 novembre 2026 i ricavi netti di gennaio–settembre 2026 sono passati da $2,20 a $2,22 milioni, con la data di taglio invariata. La differenza è emersa confrontando Power BI e MetricFlow. Per questo il progetto lavora su una copia fissa (`sql/00_fotografia_dati.sql`, dataset `raw`), e i numeri di questo README si riferiscono a quella copia.
 - **Data di taglio: 30 settembre 2026.** Il controllo settimanale dei ricavi ha trovato dati recenti gonfiati dal generatore: la settimana dal 26 ottobre +29% rispetto alla precedente, la prima di novembre più del doppio di una settimana normale in soli 6 giorni. Ottobre quindi non è un mese affidabile.
 - **Cosa il generatore decide da solo**, verificato in fase di esplorazione:
   - il canale di ogni sessione è indipendente da quello di iscrizione;
@@ -72,7 +73,7 @@ Le stesse definizioni sono in `sql/02_marts.sql` e nelle misure DAX (`powerbi/mi
 ## Struttura
 
 ```
-sql/          esplorazione, staging e mart come script BigQuery
+sql/          esplorazione, fotografia dei dati, staging e mart come script BigQuery
 dbt/          gli stessi staging e mart come progetto dbt: test, controllo anomalie, semantic layer MetricFlow
 powerbi/      report Power BI, misure DAX, guida al modello, screenshot
 notebooks/    01 test statistici su coorti e canali, 02 build dbt e metriche MetricFlow (Google Colab)
