@@ -2,7 +2,7 @@
 
 Progetto portfolio impostato come un ingaggio di consulenza: dai dati grezzi di un e-commerce a un modello a stella, metriche condivise, report Power BI, analisi statistiche e raccomandazioni per il management.
 
-**Stack:** BigQuery (SQL) · modello a stella · dbt e MetricFlow · Power BI e DAX · Python
+**Stack:** BigQuery (SQL) · modello a stella · dbt e MetricFlow · Power BI e DAX · Tableau · Python (DuckDB, SciPy)
 
 ## Il brief
 
@@ -42,6 +42,12 @@ theLook non ha esperimenti e il suo funnel segue regole fisse, quindi le domande
 - **Attribution:** ogni utente arriva sempre dallo stesso canale e la conversione è uguale per tutti i canali. I cinque modelli, Markov compreso, coincidono con la quota di traffico: come in theLook, non c'è un segnale da attribuire.
 - **A/B test:** nessuno dei 6 esperimenti ha un effetto significativo dopo la correzione per i confronti multipli. Con circa 50.000 utenti per gruppo i test vedevano solo effetti dal 6% in su. Il segnale più forte (+9,2% di conversione, 97% di probabilità di essere migliore) va confermato con un test di circa 21.600 utenti per gruppo, quattro volte quelli della variante testata. L'effetto non cambia tra segmenti e nel tempo.
 - **Controlli sul disegno:** assegnazione per utente, gruppi bilanciati, e una variabile esclusa perché costruita sugli acquisti (un "segmento di valore" che converte al 100% o allo 0%).
+
+### Dashboard Tableau Public
+
+[Apri la dashboard interattiva](https://public.tableau.com/views/Funneledesperimenti/Dashboard1): passando il mouse sugli esperimenti si leggono lift, intervallo di confidenza, probabilità bayesiana e decisione.
+
+![Dashboard Tableau Public: checkout per piattaforma, esperimenti e canali](tableau/dashboard.png)
 
 ## Per il management
 
@@ -88,7 +94,8 @@ Le stesse definizioni sono in `sql/02_marts.sql`, nelle misure DAX (`powerbi/mis
 - [x] Memo per il management e guida al modello (`docs/`)
 - [x] Progetto dbt con 54 test, controllo anomalie e semantic layer MetricFlow (`dbt/`, `notebooks/02_dbt_metricflow.ipynb`)
 - [x] Funnel, attribution e A/B test (`notebooks/03_ab_test_e_funnel.ipynb`, `docs/memo_esperimenti.md`)
-- [ ] Dashboard Tableau Public e readout per il management
+- [x] Dashboard Tableau Public ([link](https://public.tableau.com/views/Funneledesperimenti/Dashboard1), dati in `tableau/`)
+- [ ] Readout per il management
 
 ## Struttura
 
@@ -96,6 +103,7 @@ Le stesse definizioni sono in `sql/02_marts.sql`, nelle misure DAX (`powerbi/mis
 sql/          esplorazione, fotografia dei dati, staging e mart come script BigQuery
 dbt/          gli stessi staging e mart come progetto dbt: test, controllo anomalie, semantic layer MetricFlow
 powerbi/      report Power BI, misure DAX, guida al modello, screenshot
+tableau/      dati aggregati e immagine della dashboard Tableau Public
 notebooks/    01 coorti e canali, 02 build dbt e metriche MetricFlow, 03 funnel, attribution e A/B test (Google Colab)
 docs/         due memo per il management, guida al modello per chi entra nel progetto
 ```
