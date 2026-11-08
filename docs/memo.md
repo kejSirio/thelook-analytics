@@ -6,12 +6,12 @@
 
 ## In sintesi
 
-L'azienda cresce: i ricavi sono aumentati del 75% rispetto al 2025 e i nuovi clienti tornano a comprare più spesso di quelli dell'anno scorso. I dati però non permettono di dire quali canali generano questa crescita. Prima di investire in un modello di attribution bisogna rendere i dati capaci di rispondere.
+L'azienda cresce: i ricavi sono aumentati del 74% rispetto al 2025 e i nuovi clienti tornano a comprare più spesso di quelli dell'anno scorso. I dati però non permettono di dire quali canali generano questa crescita. Prima di investire in un modello di attribution bisogna rendere i dati capaci di rispondere.
 
 ## Cosa abbiamo trovato
 
-- **Ricavi:** $2,20 milioni netti da gennaio a settembre, +74,9% sullo stesso periodo del 2025. A settembre i ricavi mensili sono il doppio di un anno prima.
-- **Categorie:** giacche e jeans valgono quasi un quarto dei ricavi. I resi sono all'11,7% e cambiano poco da una categoria all'altra, dal 10,5% al 13,1%.
+- **Ricavi:** $2,22 milioni netti da gennaio a settembre, +73,6% sullo stesso periodo del 2025. I ricavi mensili passano da $195K a gennaio a $347K a settembre, il doppio di un anno prima.
+- **Categorie:** giacche e jeans valgono quasi un quarto dei ricavi. I resi sono all'11,7% e cambiano poco da una categoria all'altra, dal 10,7% al 12,3%.
 - **Riacquisto:** entro 90 giorni ricompra il 12,5% dei clienti acquisiti nel 2026, contro il 7,6% del 2025. La differenza è statisticamente solida (+4,9 punti, intervallo di confidenza da 4,2 a 5,7) e cresce in modo regolare, di circa mezzo punto per ogni mese di coorte.
 - **Canali:** 7 clienti su 10 si iscrivono da Paid Search. Il canale da cui tornano in seguito non dipende da quello di iscrizione: la distribuzione è la stessa per tutti.
 - **Qualità dei dati:** da fine ottobre i dati più recenti risultano gonfiati (+29% in una settimana, poi più del doppio). L'analisi si ferma al 30 settembre.
@@ -28,10 +28,10 @@ Una crescita così regolare, mese dopo mese, è un buon segnale ma va spiegata: 
 
 **3. Un controllo automatico della qualità prima di ogni report.**
 Senza il controllo, i report avrebbero mostrato per ottobre una crescita del 30% sul mese precedente, in buona parte dovuta ai dati gonfiati.
-*Primo passo:* un controllo settimanale che confronti ordini e ricavi con le settimane precedenti e blocchi l'aggiornamento dei report quando lo scarto supera una soglia concordata.
+*Primo passo:* un controllo settimanale che confronti ordini e ricavi con le settimane precedenti e blocchi l'aggiornamento dei report quando lo scarto supera una soglia concordata. Una prima versione esiste già nel progetto dbt: segnala le settimane con ricavi più alti di oltre il 35% rispetto alla media delle quattro precedenti.
 
 ## Limiti
 
-I dati sono sintetici, generati da Google per scopi dimostrativi. Alcuni risultati, come la crescita regolare del riacquisto e l'indipendenza tra canali, possono dipendere dalle regole del generatore più che dal comportamento dei clienti. Il metodo resta valido; i numeri vanno letti come un esempio.
+I dati sono sintetici, generati da Google per scopi dimostrativi. Alcuni risultati, come la crescita regolare del riacquisto e l'indipendenza tra canali, possono dipendere dalle regole del generatore più che dal comportamento dei clienti. Il metodo resta valido; i numeri vanno letti come un esempio. Si riferiscono a una copia fissa dei dati, presa l'8 novembre 2026.
 
-Dettagli: report Power BI (`powerbi/`), test statistici (`notebooks/01_coorti_e_canali.ipynb`), definizioni delle metriche (`README.md`).
+Dettagli: report Power BI (`powerbi/`), test statistici (`notebooks/01_coorti_e_canali.ipynb`), modello e test dbt (`dbt/`), definizioni delle metriche (`README.md`).

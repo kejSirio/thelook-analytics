@@ -46,10 +46,11 @@ Prima di scrivere una misura chiediti a quale livello vive il numero: i ricavi p
 
 ## 4. Le definizioni
 
-Sono nella tabella "Definizioni condivise" del README. Ogni metrica ha **una sola** definizione, scritta uguale in tre posti:
+Sono nella tabella "Definizioni condivise" del README. Ogni metrica ha **una sola** definizione, scritta uguale in quattro posti:
 
 - nel commento in testa a `sql/02_marts.sql`;
 - nella misura DAX (`powerbi/misure_tutte.dax`);
+- nella metrica MetricFlow (`dbt/models/semantic/metrics.yml`);
 - nella tabella del README.
 
 ## 5. Aggiungere una metrica
