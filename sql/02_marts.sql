@@ -76,7 +76,7 @@ SELECT
   oi.order_id,
   oi.user_id,
   oi.product_id,
-  DATE(oi.created_at)            AS order_date,
+  DATE(o.created_at)             AS order_date,    -- data dell'ordine
   oi.status,
   oi.sale_price,
   p.cost,
@@ -84,8 +84,10 @@ SELECT
   oi.status = 'cancelled'        AS is_cancelled,
   oi.status = 'returned'         AS is_returned
 FROM staging.stg_order_items AS oi
+INNER JOIN staging.stg_orders AS o
+  ON oi.order_id = o.order_id
 LEFT JOIN staging.stg_products AS p
-  USING (product_id);
+  ON oi.product_id = p.product_id;
 
 
 CREATE OR REPLACE VIEW marts.fct_orders AS

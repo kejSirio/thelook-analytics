@@ -29,13 +29,15 @@ models:
       - name: product_id
         tests:
           - relationships:
-              to: ref('dim_products')
-              field: product_id
+              arguments:
+                to: ref('dim_products')
+                field: product_id
       - name: user_id
         tests:
           - relationships:
-              to: ref('dim_users')
-              field: user_id
+              arguments:
+                to: ref('dim_users')
+                field: user_id
               config:
                 severity: warn
 
@@ -48,8 +50,9 @@ models:
         tests:
           - not_null
           - relationships:
-              to: ref('dim_users')
-              field: user_id
+              arguments:
+                to: ref('dim_users')
+                field: user_id
               config:
                 severity: warn
 

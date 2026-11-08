@@ -11,7 +11,8 @@ models:
       - name: status
         tests:
           - accepted_values:
-              values: ["complete", "shipped", "processing", "cancelled", "returned"]
+              arguments:
+                values: ["complete", "shipped", "processing", "cancelled", "returned"]
               config:
                 severity: warn
 
@@ -24,10 +25,9 @@ models:
         tests:
           - not_null
           - relationships:
-              to: ref('stg_orders')
-              field: order_id
-              config:
-                severity: warn
+              arguments:
+                to: ref('stg_orders')
+                field: order_id
       - name: sale_price
         tests: [not_null]
 

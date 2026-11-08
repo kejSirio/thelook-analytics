@@ -69,7 +69,12 @@ SELECT
   returned_at,
   sale_price
 FROM `bigquery-public-data.thelook_ecommerce.order_items`
-WHERE created_at < TIMESTAMP '2026-10-01 00:00:00+00';
+-- Una riga d'ordine segue la data del suo ordine (come in dbt/)
+WHERE order_id IN (
+  SELECT order_id
+  FROM `bigquery-public-data.thelook_ecommerce.orders`
+  WHERE created_at < TIMESTAMP '2026-10-01 00:00:00+00'
+);
 
 
 CREATE OR REPLACE VIEW staging.stg_users AS
