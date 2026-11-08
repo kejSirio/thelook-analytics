@@ -14,7 +14,7 @@ Il cliente è theLook, un negozio online di abbigliamento. Il management chiede 
 4. Quali categorie aprono il primo acquisto, e quali hanno più resi? *(analisi descrittiva)*
 5. Quale variante di un esperimento migliora la conversione, e per chi? *(A/B test)*
 
-## Primi risultati (gennaio–settembre 2026)
+## theLook: primi risultati (gennaio–settembre 2026)
 
 Tutti i numeri si riferiscono alla fotografia dei dati dell'8 novembre 2026 (vedi "Dati e loro limiti").
 
@@ -26,8 +26,6 @@ Tutti i numeri si riferiscono alla fotografia dei dati dell'8 novembre 2026 (ved
 - **Canali:** 7 clienti su 10 si sono iscritti da Paid Search. Il canale da cui arrivano le sessioni successive è indipendente da quello di iscrizione (chi-quadro p = 0,13; V di Cramér 0,006): un modello di attribution non avrebbe segnale su cui lavorare.
 - **Coerenza:** il progetto dbt supera tutti i 54 test, e MetricFlow e Power BI danno gli stessi numeri. I ricavi netti coincidono al centesimo con il totale di controllo della fotografia ($2.219.620,07).
 
-La sintesi per il management, con tre raccomandazioni, è in [`docs/memo.md`](docs/memo.md).
-
 ### Vendite
 
 ![Pagina Vendite del report Power BI](powerbi/vendite.png)
@@ -36,12 +34,26 @@ La sintesi per il management, con tre raccomandazioni, è in [`docs/memo.md`](do
 
 ![Pagina Clienti del report Power BI](powerbi/clienti.png)
 
+## Funnel, attribution e A/B test (marketplace simulati, 2023–2024)
+
+theLook non ha esperimenti e il suo funnel segue regole fisse, quindi le domande 1, 2 e 5 sono analizzate su un secondo dataset: 5,65 milioni di sessioni su cinque marketplace, esclusi i bot.
+
+- **Funnel:** su 100 sessioni, 3,2 arrivano al carrello, 1,1 al checkout e 0,8 all'acquisto. Canale, browser e dispositivo non cambiano nulla. Su Flipkart, però, arriva al checkout il 15,9% dei carrelli contro il 37,9% delle altre piattaforme, su ogni dispositivo, canale, paese e trimestre. Allineato alle altre piattaforme, varrebbe circa $425.000 di ricavi in più l'anno.
+- **Attribution:** ogni utente arriva sempre dallo stesso canale e la conversione è uguale per tutti i canali. I cinque modelli, Markov compreso, coincidono con la quota di traffico: come in theLook, non c'è un segnale da attribuire.
+- **A/B test:** nessuno dei 6 esperimenti ha un effetto significativo dopo la correzione per i confronti multipli. Con circa 50.000 utenti per gruppo i test vedevano solo effetti dal 6% in su. Il segnale più forte (+9,2% di conversione, 97% di probabilità di essere migliore) va confermato con un test di circa 21.600 utenti per gruppo, quattro volte quelli della variante testata. L'effetto non cambia tra segmenti e nel tempo.
+- **Controlli sul disegno:** assegnazione per utente, gruppi bilanciati, e una variabile esclusa perché costruita sugli acquisti (un "segmento di valore" che converte al 100% o allo 0%).
+
+## Per il management
+
+- [`docs/memo.md`](docs/memo.md): vendite e clienti di theLook, tre raccomandazioni.
+- [`docs/memo_esperimenti.md`](docs/memo_esperimenti.md): funnel, attribution ed esperimenti, quattro raccomandazioni.
+
 ## Dati e loro limiti
 
 - **Fonte principale:** `bigquery-public-data.thelook_ecommerce`, dataset pubblico di Google su BigQuery: utenti, ordini, righe d'ordine, prodotti, magazzino ed eventi web, da febbraio 2019.
-- **A/B test:** [E-Commerce Clickstream Simulation Dataset](https://www.kaggle.com/datasets/amith1707/e-commerce-clickstream-simulation-dataset) su Kaggle, licenza CC0.
+- **Funnel, attribution e A/B test:** [E-Commerce Clickstream Simulation Dataset](https://www.kaggle.com/datasets/amith1707/e-commerce-clickstream-simulation-dataset) su Kaggle, licenza CC0: 5,77 milioni di sessioni simulate su cinque marketplace, 2023–2024, con 6 esperimenti. Si scarica e si interroga con DuckDB dentro Colab, senza passare da BigQuery. La documentazione non coincide del tutto con i dati (conversione 0,78% contro lo 0,9% dichiarato, 11 paesi invece di 10, due segnali sempre falsi): valgono i dati. Le 121.242 sessioni segnalate come bot sono escluse.
 - **Dati sintetici:** i risultati mostrano il metodo, non il comportamento di un'azienda reale.
-- **Fotografia dei dati.** Il dataset pubblico viene rigenerato: tra il 7 e l'8 novembre 2026 i ricavi netti di gennaio–settembre 2026 sono passati da $2,20 a $2,22 milioni, con la data di taglio invariata. La differenza è emersa confrontando Power BI e MetricFlow. Per questo il progetto lavora su una copia fissa (`sql/00_fotografia_dati.sql`, dataset `raw`), e i numeri di questo README si riferiscono a quella copia. La sua carta d'identità, per riconoscerla:
+- **Fotografia dei dati.** Il dataset pubblico viene rigenerato: tra il 7 e l'8 novembre 2026 i ricavi netti di gennaio–settembre 2026 sono passati da $2,20 a $2,22 milioni, con la data di taglio invariata. La differenza è emersa confrontando Power BI e MetricFlow. Per questo il progetto lavora su una copia fissa (`sql/00_fotografia_dati.sql`, dataset `raw`), e i numeri di theLook in questo README si riferiscono a quella copia. La sua carta d'identità, per riconoscerla:
 
   | Data | orders | order_items | users | products | events | Ricavi netti gen–set 2026 |
   | --- | --- | --- | --- | --- | --- | --- |
@@ -75,7 +87,7 @@ Le stesse definizioni sono in `sql/02_marts.sql`, nelle misure DAX (`powerbi/mis
 - [x] Test statistici su coorti e canali (`notebooks/01_coorti_e_canali.ipynb`)
 - [x] Memo per il management e guida al modello (`docs/`)
 - [x] Progetto dbt con 54 test, controllo anomalie e semantic layer MetricFlow (`dbt/`, `notebooks/02_dbt_metricflow.ipynb`)
-- [ ] Funnel, attribution e A/B test
+- [x] Funnel, attribution e A/B test (`notebooks/03_ab_test_e_funnel.ipynb`, `docs/memo_esperimenti.md`)
 - [ ] Dashboard Tableau Public e readout per il management
 
 ## Struttura
@@ -84,8 +96,8 @@ Le stesse definizioni sono in `sql/02_marts.sql`, nelle misure DAX (`powerbi/mis
 sql/          esplorazione, fotografia dei dati, staging e mart come script BigQuery
 dbt/          gli stessi staging e mart come progetto dbt: test, controllo anomalie, semantic layer MetricFlow
 powerbi/      report Power BI, misure DAX, guida al modello, screenshot
-notebooks/    01 test statistici su coorti e canali, 02 build dbt e metriche MetricFlow (Google Colab)
-docs/         memo per il management, guida al modello per chi entra nel progetto
+notebooks/    01 coorti e canali, 02 build dbt e metriche MetricFlow, 03 funnel, attribution e A/B test (Google Colab)
+docs/         due memo per il management, guida al modello per chi entra nel progetto
 ```
 
 ## Autore

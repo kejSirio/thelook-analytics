@@ -19,7 +19,7 @@ L'azienda cresce: i ricavi sono aumentati del 74% rispetto al 2025 e i nuovi cli
 ## Tre raccomandazioni
 
 **1. Prima i dati, poi il modello di attribution.**
-Oggi il percorso dei clienti tra i canali non ha struttura, quindi un modello multi-touch distribuirebbe il merito in proporzione al traffico, senza informazioni nuove.
+Oggi il percorso dei clienti tra i canali non ha struttura, quindi un modello multi-touch distribuirebbe il merito in proporzione al traffico, senza informazioni nuove. Lo conferma il secondo dataset analizzato, sui marketplace: anche lì cinque modelli diversi, Markov compreso, coincidono con la quota di traffico (vedi `docs/memo_esperimenti.md`).
 *Primo passo:* uniformare le etichette dei canali tra iscrizione e sessioni (oggi "Search" e "Adwords" indicano probabilmente la stessa cosa) e misurare il contributo reale di Paid Search con un test a gruppo di controllo, sospendendo le campagne in alcune aree per qualche settimana.
 
 **2. Capire cosa spinge il riacquisto, prima di attribuirlo a un'iniziativa.**

@@ -22,6 +22,8 @@ marts.dim_* e marts.fct_*                   schema a stella, definizioni condivi
 
 Ogni livello legge solo da quello precedente. Power BI e i notebook leggono solo da `marts`, mai da `staging` o dai dati grezzi.
 
+Il notebook 03 è a parte: usa un secondo dataset, scaricato da Kaggle e interrogato con DuckDB dentro Colab, senza passare da BigQuery.
+
 ## 2. Ricostruire tutto da zero
 
 1. In un progetto Google Cloud con BigQuery attivo (basta la sandbox gratuita), esegui una volta `sql/00_fotografia_dati.sql`, poi `sql/01_staging.sql` e `sql/02_marts.sql`. Ogni file va eseguito intero, con Ctrl+Invio. In alternativa agli ultimi due, esegui il progetto dbt con `notebooks/02_dbt_metricflow.ipynb`, che scrive in `dbt_staging` e `dbt_marts`.
