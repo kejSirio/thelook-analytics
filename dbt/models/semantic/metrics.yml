@@ -1,0 +1,109 @@
+version: 2
+
+# Le metriche condivise. Stessi nomi e definizioni delle misure DAX
+# (powerbi/misure_tutte.dax) e della tabella "Definizioni condivise" del README.
+
+metrics:
+  # ---------- Vendite ----------
+  - name: ricavi_lordi
+    label: Ricavi lordi
+    description: Vendite esclusi gli articoli cancellati.
+    type: simple
+    type_params:
+      measure: gross_revenue
+
+  - name: ricavi_netti
+    label: Ricavi netti
+    description: Vendite esclusi gli articoli cancellati e resi.
+    type: simple
+    type_params:
+      measure: net_revenue
+
+  - name: margine
+    label: Margine
+    description: Margine sulle vendite nette.
+    type: simple
+    type_params:
+      measure: net_margin
+
+  - name: margine_pct
+    label: Margine %
+    description: Margine diviso ricavi netti.
+    type: ratio
+    type_params:
+      numerator: margine
+      denominator: ricavi_netti
+
+  - name: ordini
+    label: Ordini
+    description: Ordini non cancellati.
+    type: simple
+    type_params:
+      measure: orders_placed
+
+  - name: ricavi_lordi_ordini
+    label: Ricavi lordi degli ordini
+    description: Base del valore medio dell'ordine.
+    type: simple
+    type_params:
+      measure: order_gross_revenue
+
+  - name: valore_medio_ordine
+    label: Valore medio ordine
+    description: Ricavi lordi diviso ordini non cancellati.
+    type: ratio
+    type_params:
+      numerator: ricavi_lordi_ordini
+      denominator: ordini
+
+  - name: articoli_venduti
+    label: Articoli venduti
+    description: Articoli venduti, esclusi i cancellati.
+    type: simple
+    type_params:
+      measure: items_sold
+
+  - name: articoli_resi
+    label: Articoli resi
+    description: Articoli resi.
+    type: simple
+    type_params:
+      measure: items_returned
+
+  - name: tasso_di_reso
+    label: Tasso di reso
+    description: Articoli resi diviso articoli venduti.
+    type: ratio
+    type_params:
+      numerator: articoli_resi
+      denominator: articoli_venduti
+
+  # ---------- Clienti ----------
+  - name: clienti_acquirenti
+    label: Clienti acquirenti
+    description: Clienti con almeno un ordine non cancellato nel periodo.
+    type: simple
+    type_params:
+      measure: buyers
+
+  - name: nuovi_clienti
+    label: Nuovi clienti
+    description: Clienti che nel periodo fanno il primo ordine non cancellato.
+    type: simple
+    type_params:
+      measure: new_buyers
+
+  - name: clienti_di_ritorno
+    label: Clienti di ritorno
+    description: Clienti che nel periodo fanno un ordine successivo al primo.
+    type: simple
+    type_params:
+      measure: returning_buyers
+
+  - name: quota_clienti_di_ritorno
+    label: Quota clienti di ritorno
+    description: Clienti di ritorno diviso clienti acquirenti.
+    type: ratio
+    type_params:
+      numerator: clienti_di_ritorno
+      denominator: clienti_acquirenti

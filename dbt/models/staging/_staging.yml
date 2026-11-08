@@ -1,0 +1,52 @@
+version: 2
+
+models:
+  - name: stg_orders
+    description: Un ordine. Stati in minuscolo, solo ordini prima della data di taglio.
+    columns:
+      - name: order_id
+        tests: [unique, not_null]
+      - name: user_id
+        tests: [not_null]
+      - name: status
+        tests:
+          - accepted_values:
+              values: ["complete", "shipped", "processing", "cancelled", "returned"]
+              config:
+                severity: warn
+
+  - name: stg_order_items
+    description: Una riga d'ordine.
+    columns:
+      - name: order_item_id
+        tests: [unique, not_null]
+      - name: order_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_orders')
+              field: order_id
+              config:
+                severity: warn
+      - name: sale_price
+        tests: [not_null]
+
+  - name: stg_users
+    description: Un cliente, senza dati personali.
+    columns:
+      - name: user_id
+        tests: [unique, not_null]
+
+  - name: stg_products
+    description: Un prodotto.
+    columns:
+      - name: product_id
+        tests: [unique, not_null]
+
+  - name: stg_events
+    description: Un evento web (pagina vista o azione).
+    columns:
+      - name: event_id
+        tests: [unique, not_null]
+      - name: session_id
+        tests: [not_null]

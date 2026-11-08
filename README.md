@@ -73,9 +73,9 @@ Le stesse definizioni sono in `sql/02_marts.sql` e nelle misure DAX (`powerbi/mi
 
 ```
 sql/          esplorazione, staging e mart come script BigQuery
+dbt/          gli stessi staging e mart come progetto dbt: test, controllo anomalie, semantic layer MetricFlow
 powerbi/      report Power BI, misure DAX, guida al modello, screenshot
-models/       staging e mart come modelli dbt, con test (in arrivo)
-notebooks/    test statistici su coorti e canali (da eseguire in Google Colab)
+notebooks/    01 test statistici su coorti e canali, 02 build dbt e metriche MetricFlow (Google Colab)
 docs/         memo per il management, guida al modello per chi entra nel progetto
 ```
 

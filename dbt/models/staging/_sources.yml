@@ -1,0 +1,13 @@
+version: 2
+
+sources:
+  - name: thelook
+    description: Dataset pubblico e sintetico di Google su BigQuery.
+    database: bigquery-public-data
+    schema: thelook_ecommerce
+    tables:
+      - name: orders
+      - name: order_items
+      - name: users
+      - name: products
+      - name: events

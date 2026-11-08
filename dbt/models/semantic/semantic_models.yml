@@ -1,0 +1,131 @@
+version: 2
+
+# Semantic layer: entità, dimensioni e misure su cui MetricFlow costruisce
+# le metriche. Ogni misura ripete la definizione di README e DAX.
+
+semantic_models:
+  - name: order_items
+    description: Righe d'ordine. Ricavi, margine e resi.
+    model: ref('fct_order_items')
+    defaults:
+      agg_time_dimension: order_date
+    entities:
+      - name: order_item
+        type: primary
+        expr: order_item_id
+      - name: order
+        type: foreign
+        expr: order_id
+      - name: user
+        type: foreign
+        expr: user_id
+      - name: product
+        type: foreign
+        expr: product_id
+    dimensions:
+      - name: order_date
+        type: time
+        type_params:
+          time_granularity: day
+      - name: item_status
+        type: categorical
+        expr: status
+    measures:
+      - name: gross_revenue
+        description: Vendite esclusi gli articoli cancellati.
+        agg: sum
+        expr: case when not is_cancelled then sale_price else 0 end
+      - name: net_revenue
+        description: Vendite esclusi gli articoli cancellati e resi.
+        agg: sum
+        expr: case when not is_cancelled and not is_returned then sale_price else 0 end
+      - name: net_margin
+        description: Margine sulle vendite nette.
+        agg: sum
+        expr: case when not is_cancelled and not is_returned then margin else 0 end
+      - name: items_sold
+        description: Articoli venduti, esclusi i cancellati.
+        agg: sum
+        expr: case when not is_cancelled then 1 else 0 end
+      - name: items_returned
+        description: Articoli resi.
+        agg: sum
+        expr: case when is_returned then 1 else 0 end
+
+  - name: orders
+    description: Ordini. Volumi, valore medio, nuovi clienti e clienti di ritorno.
+    model: ref('fct_orders')
+    defaults:
+      agg_time_dimension: order_date
+    entities:
+      - name: order
+        type: primary
+        expr: order_id
+      - name: user
+        type: foreign
+        expr: user_id
+    dimensions:
+      - name: order_date
+        type: time
+        type_params:
+          time_granularity: day
+      - name: order_status
+        type: categorical
+        expr: status
+      - name: user_order_number
+        type: categorical
+    measures:
+      - name: orders_placed
+        description: Ordini non cancellati.
+        agg: sum
+        expr: case when status != 'cancelled' then 1 else 0 end
+      - name: order_gross_revenue
+        description: Ricavi lordi degli ordini non cancellati.
+        agg: sum
+        expr: case when status != 'cancelled' then gross_revenue else 0 end
+      - name: buyers
+        description: Clienti con almeno un ordine non cancellato.
+        agg: count_distinct
+        expr: case when status != 'cancelled' then user_id end
+      - name: new_buyers
+        description: Clienti al primo ordine non cancellato.
+        agg: count_distinct
+        expr: case when user_order_number = 1 then user_id end
+      - name: returning_buyers
+        description: Clienti con un ordine successivo al primo.
+        agg: count_distinct
+        expr: case when user_order_number > 1 then user_id end
+
+  - name: users
+    description: Clienti. Canale di iscrizione, paese, coorte.
+    model: ref('dim_users')
+    entities:
+      - name: user
+        type: primary
+        expr: user_id
+    dimensions:
+      - name: signup_channel
+        type: categorical
+      - name: country
+        type: categorical
+      - name: gender
+        type: categorical
+      - name: cohort_month
+        type: time
+        type_params:
+          time_granularity: month
+
+  - name: products
+    description: Prodotti. Categoria, marca, reparto.
+    model: ref('dim_products')
+    entities:
+      - name: product
+        type: primary
+        expr: product_id
+    dimensions:
+      - name: category
+        type: categorical
+      - name: brand
+        type: categorical
+      - name: department
+        type: categorical

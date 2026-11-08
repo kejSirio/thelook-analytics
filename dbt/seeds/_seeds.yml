@@ -1,0 +1,17 @@
+version: 2
+
+seeds:
+  - name: channel_map
+    description: >
+      Raccordo tra le etichette di canale usate all'iscrizione e nelle sessioni.
+      Le ipotesi sono dichiarate riga per riga perché vanno citate nel readout.
+    config:
+      column_types:
+        source_label: string
+        channel_group: string
+        assumption: string
+    columns:
+      - name: source_label
+        tests: [unique, not_null]
+      - name: channel_group
+        tests: [not_null]

@@ -1,0 +1,30 @@
+name: thelook_analytics
+version: "1.0.0"
+config-version: 2
+profile: thelook
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+test-paths: ["tests"]
+
+vars:
+  # Data di taglio, esclusa: i dati arrivano fino al 30 settembre 2026.
+  # Il perché è nel README (dati recenti gonfiati dal generatore).
+  cutoff_date: "2026-10-01"
+  # Controllo anomalie: una settimana che supera la media delle
+  # quattro precedenti di oltre questa quota genera un avviso.
+  anomaly_threshold: 0.25
+  anomaly_start_date: "2025-01-01"
+
+models:
+  thelook_analytics:
+    staging:
+      +schema: staging
+      +materialized: view
+    marts:
+      +schema: marts
+      +materialized: table
+
+seeds:
+  thelook_analytics:
+    +schema: staging
