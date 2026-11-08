@@ -2,6 +2,8 @@ version: 2
 
 # Semantic layer: entità, dimensioni e misure su cui MetricFlow costruisce
 # le metriche. Ogni misura ripete la definizione di README e DAX.
+# L'entità dell'ordine si chiama customer_order perché "order" è una parola
+# riservata in SQL e MetricFlow la usa come alias senza virgolette.
 
 semantic_models:
   - name: order_items
@@ -13,7 +15,7 @@ semantic_models:
       - name: order_item
         type: primary
         expr: order_item_id
-      - name: order
+      - name: customer_order
         type: foreign
         expr: order_id
       - name: user
@@ -58,7 +60,7 @@ semantic_models:
     defaults:
       agg_time_dimension: order_date
     entities:
-      - name: order
+      - name: customer_order
         type: primary
         expr: order_id
       - name: user
